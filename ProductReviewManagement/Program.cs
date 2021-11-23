@@ -22,7 +22,11 @@ namespace ProductReviewManagement
             };
             RetrieveTop3RecordsFromList(list);
             Console.ReadLine();
+            Console.WriteLine("Records based on rating and product id : ");
+            RetrieveRecordsBasedOnRatingAndProductId(list);
+            Console.ReadLine();
         }
+        //UC2
         //This method for retrieve top three records from list
         public static void RetrieveTop3RecordsFromList(List<ProductReview> list)
         {
@@ -32,6 +36,17 @@ namespace ProductReviewManagement
             foreach (ProductReview product in topThreeRecords)
             {
                 Console.WriteLine("ProductId : " + product.ProductId + " UserId : " + product.UserId + " Rating : " + product.Rating + " Review : " + product.Review + " IsLike : " + product.IsLike);
+            }
+        }
+        //UC3
+        //This method for retrieve the records based on rating and product ID.      
+        public static void RetrieveRecordsBasedOnRatingAndProductId(List<ProductReview> list)
+        {
+            //Method syntax for LINQ
+            var data = (list.Where(r => r.Rating > 3 && (r.ProductId == 1 || r.ProductId == 4 || r.ProductId == 9))).ToList();
+            foreach (var element in data)
+            {
+                Console.WriteLine("ProductId : " + element.ProductId + " Rating : " + element.Rating + " UserId : " + element.UserId + " Review : " + element.Review + " IsLike : " + element.IsLike);
             }
         }
 
