@@ -27,6 +27,8 @@ namespace ProductReviewManagement
             Console.ReadLine();
             Console.WriteLine("Count of ProductId : ");
             CountingProductID(list);
+            Console.WriteLine("ProductID and Review are: ");
+            RetrieveProductIDAndReview(list);
 
         }
         //UC2
@@ -61,6 +63,18 @@ namespace ProductReviewManagement
             foreach (var element in data)
             {
                 Console.WriteLine("ProductId : " + element.ProductId + " \t " + "Count" + element.count);
+                Console.WriteLine("-----------------------");
+            }
+        }
+        //UC-5
+        //Retrive product ID and review present in the list
+        public static void RetrieveProductIDAndReview(List<ProductReview> list)
+        {
+            //using select method
+            var p = list.Select(product => new { ProductId = product.ProductId, Review = product.Review}).ToList();
+            foreach (var element in p)
+            {
+                Console.WriteLine("ProductId : " + element.ProductId + " \t " + "Review" + element.Review);
                 Console.WriteLine("-----------------------");
             }
         }
