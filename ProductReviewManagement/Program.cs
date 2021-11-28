@@ -37,8 +37,8 @@ namespace ProductReviewManagement
             RetrieveProductIDAndReview1(list);
 
             CreateDataTable();
-            
-            
+
+
 
         }
         //UC2
@@ -69,7 +69,7 @@ namespace ProductReviewManagement
         public static void CountingProductID(List<ProductReview> list)
         {
             //Method syntax for LINQ
-            var data = list.GroupBy(p => p.ProductId).Select(x => new { ProductId = x.Key, count = x.Count() }); 
+            var data = list.GroupBy(p => p.ProductId).Select(x => new { ProductId = x.Key, count = x.Count() });
             foreach (var element in data)
             {
                 Console.WriteLine("ProductId : " + element.ProductId + " \t " + "Count" + element.count);
@@ -81,7 +81,7 @@ namespace ProductReviewManagement
         public static void RetrieveProductIDAndReview(List<ProductReview> list)
         {
             //using select method
-            var p = list.Select(product => new { ProductId = product.ProductId, Review = product.Review}).ToList();
+            var p = list.Select(product => new { ProductId = product.ProductId, Review = product.Review }).ToList();
             foreach (var element in p)
             {
                 Console.WriteLine("ProductId : " + element.ProductId + " \t " + "Review" + element.Review);
@@ -131,24 +131,39 @@ namespace ProductReviewManagement
             table.Rows.Add(8, 1, 2, "bad", false);
 
             Console.WriteLine("Retrieved data are: ");
-            RetrieveDataFromDataTable(table);
-            RetrieveDataFromDataTables(table);
+            //RetrieveDataFromDataTable(table);
+            Console.WriteLine();
+            RetrieveDataFromDataTablesWhoseIsLikeValueIsTrue(table);
+            Console.WriteLine();
+            RetrieveDataFromDataTablesWhoseReviewValueIsGood(table);
+
+
         }
         public static void RetrieveDataFromDataTable(DataTable table)
         {
             var result = (from product in table.AsEnumerable() select product.Field<int>("ProductID")).ToList();
-            Console.WriteLine("Product ID are");
+            Console.WriteLine("Product ID's are");
             foreach (var product in result)
             {
                 Console.WriteLine(product);
             }
         }
-        //UC-9
         //This method for retrieve records who's Islike value is true
-        public static void RetrieveDataFromDataTables(DataTable table)
+        public static void RetrieveDataFromDataTablesWhoseIsLikeValueIsTrue(DataTable table)
         {
             var result = (from product in table.AsEnumerable() where product.Field<bool>("IsLike") == true select product.Field<int>("ProductID")).ToList();
             Console.WriteLine("Product Id of Who's Islike value is true are : ");
+            foreach (var product in result)
+            {
+                Console.WriteLine("Product ID : " + product);
+            }
+        }
+
+        //This method for retrive product id whose review is good
+        public static void RetrieveDataFromDataTablesWhoseReviewValueIsGood(DataTable table)
+        {
+            var result = (from product in table.AsEnumerable() where product.Field<string>("Review") == "good" select product.Field<int>("ProductID")).ToList();
+            Console.WriteLine("Product Id of Whose review is good : ");
             foreach (var product in result)
             {
                 Console.WriteLine("Product ID : " + product);
