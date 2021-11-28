@@ -18,7 +18,8 @@ namespace ProductReviewManagement
                 new ProductReview(){ ProductId=1,UserId=3,Review="bad",Rating=1,IsLike=false},
                 new ProductReview(){ ProductId=3,UserId=5,Review="good",Rating=20,IsLike=true},
                 new ProductReview(){ ProductId=4,UserId=7,Review="average",Rating=10,IsLike=true},
-                new ProductReview(){ ProductId=5,UserId=1,Review="bad",Rating=5,IsLike=false}
+                new ProductReview(){ ProductId=5,UserId=1,Review="bad",Rating=5,IsLike=false},
+                new ProductReview(){ ProductId=6,UserId=4,Review="bad",Rating=4,IsLike=false}
             };
             RetrieveTop3RecordsFromList(list);
             Console.ReadLine();
@@ -29,6 +30,8 @@ namespace ProductReviewManagement
             CountingProductID(list);
             Console.WriteLine("ProductID and Review are: ");
             RetrieveProductIDAndReview(list);
+            Console.WriteLine("Remaining are: ");
+            SkipTop5RecordsFromListAndRetrieveOtherData(list);
 
         }
         //UC2
@@ -76,6 +79,18 @@ namespace ProductReviewManagement
             {
                 Console.WriteLine("ProductId : " + element.ProductId + " \t " + "Review" + element.Review);
                 Console.WriteLine("-----------------------");
+            }
+        }
+        //UC-6
+        //This method for skip top 5 rcords and retrive other data
+        public static void SkipTop5RecordsFromListAndRetrieveOtherData(List<ProductReview> list)
+        {
+            //Query syntax for LINQ 
+            var result = (from product in list orderby product.Rating descending select product).Skip(5);
+            var remainingRecords = result;
+            foreach (ProductReview product in remainingRecords)
+            {
+                Console.WriteLine("ProductId : " + product.ProductId + " UserId : " + product.UserId + " Rating : " + product.Rating + " Review : " + product.Review + " IsLike : " + product.IsLike);
             }
         }
     } 
