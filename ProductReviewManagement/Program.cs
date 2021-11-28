@@ -37,7 +37,8 @@ namespace ProductReviewManagement
             RetrieveProductIDAndReview1(list);
 
             CreateDataTable();
-
+            
+            
 
         }
         //UC2
@@ -109,6 +110,7 @@ namespace ProductReviewManagement
                 Console.WriteLine("ProductID: " + element.productID + "\t" + "Review:" + element.review);
             }
         }
+        //UC-8
         //This method for create data table 
         public static void CreateDataTable()
         {
@@ -128,7 +130,9 @@ namespace ProductReviewManagement
             table.Rows.Add(7, 7, 13, "average", true);
             table.Rows.Add(8, 1, 2, "bad", false);
 
+            Console.WriteLine("Retrieved data are: ");
             RetrieveDataFromDataTable(table);
+            RetrieveDataFromDataTables(table);
         }
         public static void RetrieveDataFromDataTable(DataTable table)
         {
@@ -139,7 +143,17 @@ namespace ProductReviewManagement
                 Console.WriteLine(product);
             }
         }
-
+        //UC-9
+        //This method for retrieve records who's Islike value is true
+        public static void RetrieveDataFromDataTables(DataTable table)
+        {
+            var result = (from product in table.AsEnumerable() where product.Field<bool>("IsLike") == true select product.Field<int>("ProductID")).ToList();
+            Console.WriteLine("Product Id of Who's Islike value is true are : ");
+            foreach (var product in result)
+            {
+                Console.WriteLine("Product ID : " + product);
+            }
+        }
     }
 }
 
