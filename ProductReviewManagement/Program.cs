@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Data;
 
 namespace ProductReviewManagement
 {
@@ -34,6 +35,9 @@ namespace ProductReviewManagement
             SkipTop5RecordsFromListAndRetrieveOtherData(list);
             Console.WriteLine("Retrieved product id and reviews are: ");
             RetrieveProductIDAndReview1(list);
+
+            CreateDataTable();
+
 
         }
         //UC2
@@ -105,6 +109,37 @@ namespace ProductReviewManagement
                 Console.WriteLine("ProductID: " + element.productID + "\t" + "Review:" + element.review);
             }
         }
-    } 
+        //This method for create data table 
+        public static void CreateDataTable()
+        {
+            DataTable table = new DataTable();
+            table.Columns.Add("ProductID", typeof(int));
+            table.Columns.Add("UserID", typeof(int));
+            table.Columns.Add("Rating", typeof(int));
+            table.Columns.Add("Review", typeof(string));
+            table.Columns.Add("IsLike", typeof(bool));
+
+            table.Rows.Add(1, 1, 17, "good", true);
+            table.Rows.Add(2, 3, 1, "bad", false);
+            table.Rows.Add(3, 5, 20, "good", true);
+            table.Rows.Add(4, 7, 10, "average", true);
+            table.Rows.Add(5, 1, 5, "bad", false);
+            table.Rows.Add(6, 5, 30, "good", true);
+            table.Rows.Add(7, 7, 13, "average", true);
+            table.Rows.Add(8, 1, 2, "bad", false);
+
+            RetrieveDataFromDataTable(table);
+        }
+        public static void RetrieveDataFromDataTable(DataTable table)
+        {
+            var result = (from product in table.AsEnumerable() select product.Field<int>("ProductID")).ToList();
+            Console.WriteLine("Product ID are");
+            foreach (var product in result)
+            {
+                Console.WriteLine(product);
+            }
+        }
+
+    }
 }
 
